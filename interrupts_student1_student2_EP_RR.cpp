@@ -63,7 +63,20 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
 
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
         //This mainly involves keeping track of how long a process must remain in the ready queue
-
+        for (auto iter = wait_queue.begin(); iter!= wait_queue.end();) {
+            iter->io_remaining_time--; //decrement io_duration each time it remains in wait queue
+            if (iter->io_remaining_time == 0) {
+                iter->state = READY; //set state from WAITING to READY
+                iter->io_remaining_time = iter->io_duration; //reset io remaining time
+                ready_queue.push_back(*iter); //add to ready queue
+                sync_queue(job_list, *iter);
+                iter = wait_queue.erase(iter); //erase from wait queue
+                execution_status += print_exec_status(current_time, iter->PID, WAITING, READY);
+            }
+            else{
+                iter++;
+            }
+        }
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
