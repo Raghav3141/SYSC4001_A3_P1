@@ -270,6 +270,7 @@ PCB add_process(std::vector<std::string> tokens) {
     process.start_time = -1;
     process.partition_number = -1;
     process.state = NOT_ASSIGNED;
+    process.io_remaining_time = process.io_duration;
 
     return process;
 }
@@ -314,6 +315,7 @@ void idle_CPU(PCB &running) {
     running.size = 0;
     running.state = NOT_ASSIGNED;
     running.PID = -1;
+    running.io_remaining_time = 0;
 }
 
 #endif

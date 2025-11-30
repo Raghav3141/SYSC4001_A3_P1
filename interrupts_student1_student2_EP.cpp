@@ -27,6 +27,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                                     //to make the code easier :).
 
     unsigned int current_time = 0;
+    unsigned int io_counter = 0;
     PCB running;
 
     //Initialize an empty running process
@@ -69,6 +70,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 iter->state = READY; //set state from WAITING to READY
                 iter->io_remaining_time = iter->io_duration; //reset io remaining time
                 ready_queue.push_back(*iter); //add to ready queue
+                sync_queue(job_list, *iter);
                 iter = wait_queue.erase(iter); //erase from wait queue
                 execution_status += print_exec_status(current_time, iter->PID, WAITING, READY);
             }
@@ -80,7 +82,34 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
-        EP(ready_queue); //example of FCFS is shown here
+        EP(ready_queue); //EP is shown here, this sorts the ready queue so that the lowest PID has the highest priority
+        if ((running.PID == -1) && !ready_queue.empty()){ //No process running
+            run_process(&running, job_list, ready_queue, current_time); //run next process in ready queue
+            execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+        }
+        if(running.PID >= 0){ //condition if there is a current running process
+            running.remaining_time--;
+            io_counter++;
+            if(running.remaining_time == 0){ //process terminates
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED);
+                terminate_process(&running, job_list);
+                run_process(&running, job_list, ready_queue, current_time); //run next process in ready queue
+                execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+            }
+            else if((io_counter == running.io_freq) && (running.io_freq > 0)){ //I/O interrupt sends process to wait queue
+                running.state = WAITING;
+                io_counter = 0;
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
+                wait_queue.push_back(running);
+                if (!ready_queue.empty()){
+                    run_process(&running, job_list, ready_queue, current_time);
+                    execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+                }
+                else{
+                    idle_CPU(running);
+                }
+            }
+        }
         /////////////////////////////////////////////////////////////////
         current_time++;
     }
