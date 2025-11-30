@@ -66,6 +66,7 @@ struct PCB{
     unsigned int    io_freq;
     unsigned int    io_duration;
     unsigned int    io_remaining_time;
+    unsigned int    io_counter;
 };
 
 //------------------------------------HELPER FUNCTIONS FOR THE SIMULATOR------------------------------
@@ -271,6 +272,7 @@ PCB add_process(std::vector<std::string> tokens) {
     process.partition_number = -1;
     process.state = NOT_ASSIGNED;
     process.io_remaining_time = process.io_duration;
+    process.io_counter = 0;
 
     return process;
 }
@@ -316,6 +318,7 @@ void idle_CPU(PCB &running) {
     running.state = NOT_ASSIGNED;
     running.PID = -1;
     running.io_remaining_time = 0;
+    running.io_counter = 0;
 }
 
 #endif
