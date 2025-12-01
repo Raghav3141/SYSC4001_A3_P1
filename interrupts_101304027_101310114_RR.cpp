@@ -76,8 +76,8 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 iter->arrival_time = current_time; //need to update arrival time to ready queue for RR
                 ready_queue.push_back(*iter); //add to ready queue
                 sync_queue(job_list, *iter);
-                iter = wait_queue.erase(iter); //erase from wait queue
                 execution_status += print_exec_status(current_time, iter->PID, WAITING, READY);
+                iter = wait_queue.erase(iter); //erase from wait queue
             }
             else{
                 iter++;
