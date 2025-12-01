@@ -51,7 +51,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         //Population of ready queue is given to you as an example.
         //Go through the list of proceeses
         for(auto &process : list_processes) {
-            if(process.arrival_time == current_time) {//check if the AT = current time
+            if(process.first_arrival_time == current_time) {//check if the AT = current time
                 //if so, assign memory and put the process into the ready queue
                 assign_memory(process);
 
@@ -67,6 +67,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         //This mainly involves keeping track of how long a process must remain in the ready queue
         for (auto iter = wait_queue.begin(); iter!= wait_queue.end();) {
             iter->io_remaining_time--; //decrement io_duration each time it remains in wait queue
+            iter->total_io_time++;
             if (iter->io_remaining_time == 0) {
                 iter->state = READY; //set state from WAITING to READY
                 iter->io_remaining_time = iter->io_duration; //reset io remaining time
@@ -92,6 +93,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         if(running.PID >= 0){ //condition if there is a current running process
             if(running.remaining_time == 0){ //process terminates
                 execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED);
+                running.end_time = current_time;
                 terminate_process(running, job_list);
                 if (!ready_queue.empty()){ //check if ready queue still has elements before choosing what's next to run
                     run_process(running, job_list, ready_queue, current_time); //run next process in ready queue
@@ -140,6 +142,8 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     
     //Close the output table
     execution_status += print_exec_footer();
+
+    execution_status += output_averages(job_list, current_time);
 
     return std::make_tuple(execution_status);
 }

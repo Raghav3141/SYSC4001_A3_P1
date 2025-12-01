@@ -18,6 +18,7 @@
 #include<sstream>
 #include<iomanip>
 #include<algorithm>
+#include<numeric>
 
 //An enumeration of states to make assignment easier
 enum states {
@@ -67,6 +68,9 @@ struct PCB{
     unsigned int    io_duration;
     unsigned int    io_remaining_time;
     unsigned int    io_counter;
+    unsigned int    first_arrival_time;
+    unsigned int    end_time;
+    unsigned int    total_io_time;
 };
 
 //------------------------------------HELPER FUNCTIONS FOR THE SIMULATOR------------------------------
@@ -273,6 +277,9 @@ PCB add_process(std::vector<std::string> tokens) {
     process.state = NOT_ASSIGNED;
     process.io_remaining_time = process.io_duration;
     process.io_counter = 0;
+    process.first_arrival_time = std::stoi(tokens[2]);
+    process.end_time = 0;
+    process.total_io_time = 0;
 
     return process;
 }
@@ -319,6 +326,69 @@ void idle_CPU(PCB &running) {
     running.PID = -1;
     running.io_remaining_time = 0;
     running.io_counter = 0;
+    running.first_arrival_time = 0;
+    running.end_time = 0;
+    running.total_io_time = 0;
+}
+
+
+//Below is a helper function used to calculate the average waiting times, turnaround time, response time, and throughput
+std::string output_averages(std::vector<PCB> &job_queue, unsigned int current_time){
+    //get the different values for each process and store in a vector
+    std::vector<unsigned int> turnaround_times;
+    std::vector<unsigned int> waiting_times;
+    std::vector<unsigned int> response_times;
+
+    //variables for the average to be outputted
+    float avg_turnaround;
+    float throughput;
+    float avg_waiting;
+    float avg_response;
+    for (auto &process : job_queue){
+        unsigned int turnaround_time = process.end_time - process.first_arrival_time;
+        unsigned int waiting_time = turnaround_time - process.processing_time;
+        turnaround_times.push_back(turnaround_time);
+        waiting_times.push_back(waiting_time - process.total_io_time);
+        response_times.push_back(process.io_freq);
+    }
+
+    avg_turnaround = (std::accumulate(turnaround_times.begin(), turnaround_times.end(), 0.0))/turnaround_times.size();
+    avg_waiting = (std::accumulate(waiting_times.begin(), waiting_times.end(), 0.0))/waiting_times.size();
+    avg_response = (std::accumulate(response_times.begin(), response_times.end(), 0.0))/response_times.size();
+    throughput = (job_queue.size()/static_cast<float>(current_time - 1));
+
+    const int tableWidth = 75;
+
+    std::stringstream buffer;
+    
+    // Print top border
+    buffer << "+" << std::setfill('-') << std::setw(tableWidth) << "+" << std::endl;
+    
+    // Print headers
+    buffer  << "|"
+            << std::setfill(' ') << std::fixed << std::setprecision(5) << std::setw(18) << "Throughput"
+            << std::setw(2) << "|"
+            << std::setfill(' ') << std::setw(16) << "Average Turnaround Time"
+            << std::setw(2) << "|"
+            << std::setfill(' ') << std::setw(15) << "Average Waiting Time"
+            << std::setw(2) << "|"
+            << std::setfill(' ') << std::setw(16) << "Average Response Time"
+            << std::setw(2) << "|" << std::endl;
+    
+    // Print separator
+    buffer << "+" << std::setfill('-') << std::setw(tableWidth) << "+" << std::endl;
+
+    buffer  << "|"
+            << std::setfill(' ') << std::setw(18) << throughput
+            << std::setw(2) << "|"
+            << std::setw(16) << avg_turnaround
+            << std::setw(2) << "|"
+            << std::setw(15) << avg_waiting
+            << std::setw(2) << "|"
+            << std::setw(16) << avg_response
+            << std::setw(2) << "|" << std::endl;
+
+    return buffer.str();
 }
 
 #endif
