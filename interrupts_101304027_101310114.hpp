@@ -1,6 +1,8 @@
 /**
  * @file interrupts.hpp
  * @author Sasisekhar Govind
+ * @author Raghav Ramaswamy 101310114
+ * @author Hariharan Thennarasu 101304027
  * @brief template main.cpp file for Assignment 3 Part 1 of SYSC4001
  * 
  */

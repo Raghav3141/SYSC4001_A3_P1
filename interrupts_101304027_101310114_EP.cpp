@@ -1,11 +1,13 @@
 /**
  * @file interrupts.cpp
  * @author Sasisekhar Govind
+ * @author Raghav Ramaswamy 101310114
+ * @author Hariharan Thennarasu 101304027
  * @brief template main.cpp file for Assignment 3 Part 1 of SYSC4001
  * 
  */
 
-#include<interrupts_student1_student2.hpp>
+#include"interrupts_101304027_101310114.hpp"
 
 void EP(std::vector<PCB> &ready_queue) {
     std::sort( 

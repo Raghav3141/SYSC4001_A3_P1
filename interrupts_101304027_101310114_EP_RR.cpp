@@ -1,19 +1,20 @@
 /**
  * @file interrupts.cpp
  * @author Sasisekhar Govind
+ * @author Raghav Ramaswamy 101310114
+ * @author Hariharan Thennarasu 101304027
  * @brief template main.cpp file for Assignment 3 Part 1 of SYSC4001
  * 
  */
 
-#include<interrupts_student1_student2.hpp>
+#include"interrupts_101304027_101310114.hpp"
 #define TIMER 100
-
-void FCFS(std::vector<PCB> &ready_queue) {
+void EP(std::vector<PCB> &ready_queue) {
     std::sort( 
                 ready_queue.begin(),
                 ready_queue.end(),
                 []( const PCB &first, const PCB &second ){
-                    return (first.arrival_time > second.arrival_time); 
+                    return (first.PID > second.PID); 
                 } 
             );
 }
@@ -71,12 +72,11 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             if (iter->io_remaining_time == 0) {
                 iter->state = READY; //set state from WAITING to READY
                 iter->io_remaining_time = iter->io_duration; //reset io remaining time
-                iter->arrival_time = current_time; //need to update arrival time to ready queue for RR
                 ready_queue.push_back(*iter); //add to ready queue
                 sync_queue(job_list, *iter);
-                iter = wait_queue.erase(iter); //erase from wait queue
                 execution_status += print_exec_status(current_time, iter->PID, WAITING, READY);
-            }
+                iter = wait_queue.erase(iter); //erase from wait queue            
+                }
             else{
                 iter++;
             }
@@ -84,7 +84,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
-        FCFS(ready_queue); //FCFS needed for RR
+        EP(ready_queue); //EP needed for reorganizing ready queue
         if ((running.PID == -1) && !ready_queue.empty()){ //No process running
             run_process(running, job_list, ready_queue, current_time); //run next process in ready queue
             execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
@@ -104,11 +104,22 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                     idle_CPU(running);
                 }
             }
+            else if((running.PID > ready_queue.back().PID) && !ready_queue.empty()){ //use EP preemption to kick out current running process and replace with next process
+                running.state = READY;
+                ready_queue.push_back(running);
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, READY);
+                sync_queue(job_list, running);
+                EP(ready_queue);
+                run_process(running, job_list, ready_queue, current_time);
+                execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+                timer_counter = 0;
+            }
             else if((running.io_counter == running.io_freq) && (running.io_freq > 0)){ //I/O interrupt sends process to wait queue
                 running.state = WAITING;
                 running.io_counter = 0;
                 execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
                 wait_queue.push_back(running);
+                sync_queue(job_list, running);
                 if (!ready_queue.empty()){ //checks if ready queue has stuff before running next process
                     run_process(running, job_list, ready_queue, current_time);
                     execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
@@ -126,12 +137,15 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 execution_status += print_exec_status(current_time, running.PID, RUNNING, READY);
                 sync_queue(job_list, running);
 
-                FCFS(ready_queue); //update ready queue after RR timeout
+                EP(ready_queue); //reorganize ready queue using EP organization
 
                 //replace current running process with next process in ready queue
                 run_process(running, job_list, ready_queue, current_time);
                 execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
                 timer_counter = 0;
+            }
+            else {
+                sync_queue(job_list, running);
             }
             running.remaining_time--;
             running.io_counter++;
@@ -139,8 +153,9 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         }
         /////////////////////////////////////////////////////////////////
         current_time++;
-    }
         /////////////////////////////////////////////////////////////////
+
+    }
     
     //Close the output table
     execution_status += print_exec_footer();
