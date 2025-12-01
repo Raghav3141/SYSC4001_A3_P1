@@ -1,0 +1,83 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  1 |       NEW |     READY |
+|                 0 |  1 |     READY |   RUNNING |
+|                 5 |  2 |       NEW |     READY |
+|                12 |  1 |   RUNNING |   WAITING |
+|                12 |  2 |     READY |   RUNNING |
+|                15 |  3 |       NEW |     READY |
+|                18 |  1 |   WAITING |     READY |
+|                25 |  4 |       NEW |     READY |
+|                27 |  2 |   RUNNING |   WAITING |
+|                27 |  1 |     READY |   RUNNING |
+|                35 |  5 |       NEW |     READY |
+|                36 |  2 |   WAITING |     READY |
+|                39 |  1 |   RUNNING |   WAITING |
+|                39 |  2 |     READY |   RUNNING |
+|                45 |  1 |   WAITING |     READY |
+|                54 |  2 |   RUNNING |   WAITING |
+|                54 |  1 |     READY |   RUNNING |
+|                63 |  2 |   WAITING |     READY |
+|                66 |  1 |   RUNNING |   WAITING |
+|                66 |  2 |     READY |   RUNNING |
+|                72 |  1 |   WAITING |     READY |
+|                81 |  2 |   RUNNING |   WAITING |
+|                81 |  1 |     READY |   RUNNING |
+|                90 |  2 |   WAITING |     READY |
+|                93 |  1 |   RUNNING |   WAITING |
+|                93 |  2 |     READY |   RUNNING |
+|                99 |  1 |   WAITING |     READY |
+|               108 |  2 |   RUNNING |   WAITING |
+|               108 |  1 |     READY |   RUNNING |
+|               117 |  2 |   WAITING |     READY |
+|               120 |  1 |   RUNNING |TERMINATED |
+|               120 |  2 |     READY |   RUNNING |
+|               135 |  2 |   RUNNING |TERMINATED |
+|               135 |  3 |     READY |   RUNNING |
+|               152 |  3 |   RUNNING |   WAITING |
+|               152 |  4 |     READY |   RUNNING |
+|               159 |  3 |   WAITING |     READY |
+|               171 |  4 |   RUNNING |   WAITING |
+|               171 |  3 |     READY |   RUNNING |
+|               182 |  4 |   WAITING |     READY |
+|               188 |  3 |   RUNNING |   WAITING |
+|               188 |  4 |     READY |   RUNNING |
+|               195 |  3 |   WAITING |     READY |
+|               207 |  4 |   RUNNING |   WAITING |
+|               207 |  3 |     READY |   RUNNING |
+|               218 |  4 |   WAITING |     READY |
+|               224 |  3 |   RUNNING |   WAITING |
+|               224 |  4 |     READY |   RUNNING |
+|               231 |  3 |   WAITING |     READY |
+|               243 |  4 |   RUNNING |   WAITING |
+|               243 |  3 |     READY |   RUNNING |
+|               254 |  4 |   WAITING |     READY |
+|               260 |  3 |   RUNNING |   WAITING |
+|               260 |  4 |     READY |   RUNNING |
+|               267 |  3 |   WAITING |     READY |
+|               279 |  4 |   RUNNING |   WAITING |
+|               279 |  3 |     READY |   RUNNING |
+|               290 |  4 |   WAITING |     READY |
+|               296 |  3 |   RUNNING |TERMINATED |
+|               296 |  4 |     READY |   RUNNING |
+|               315 |  4 |   RUNNING |TERMINATED |
+|               315 |  5 |     READY |   RUNNING |
+|               337 |  5 |   RUNNING |   WAITING |
+|               350 |  5 |   WAITING |     READY |
+|               350 |  5 |     READY |   RUNNING |
+|               372 |  5 |   RUNNING |   WAITING |
+|               385 |  5 |   WAITING |     READY |
+|               385 |  5 |     READY |   RUNNING |
+|               407 |  5 |   RUNNING |   WAITING |
+|               420 |  5 |   WAITING |     READY |
+|               420 |  5 |     READY |   RUNNING |
+|               442 |  5 |   RUNNING |   WAITING |
+|               455 |  5 |   WAITING |     READY |
+|               455 |  5 |     READY |   RUNNING |
+|               477 |  5 |   RUNNING |TERMINATED |
++------------------------------------------------+
++---------------------------------------------------------------------------------------------------+
+|        Throughput |  Average Turnaround Time |    Average Waiting Time |    Average Response Time |
++---------------------------------------------------------------------------------------------------+
+|           0.01048 |                252.60001 |               130.80000 |                 17.00000 |

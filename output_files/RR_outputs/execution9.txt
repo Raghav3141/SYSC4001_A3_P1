@@ -1,0 +1,57 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|               200 | 40 |       NEW |     READY |
+|               200 | 40 |     READY |   RUNNING |
+|               300 | 50 |       NEW |     READY |
+|               300 | 40 |   RUNNING |     READY |
+|               300 | 40 |     READY |   RUNNING |
+|               400 | 60 |       NEW |     READY |
+|               400 | 40 |   RUNNING |     READY |
+|               400 | 50 |     READY |   RUNNING |
+|               500 | 50 |   RUNNING |     READY |
+|               500 | 40 |     READY |   RUNNING |
+|               600 | 40 |   RUNNING |     READY |
+|               600 | 60 |     READY |   RUNNING |
+|               700 | 60 |   RUNNING |     READY |
+|               700 | 50 |     READY |   RUNNING |
+|               800 | 50 |   RUNNING |     READY |
+|               800 | 40 |     READY |   RUNNING |
+|               900 | 40 |   RUNNING |     READY |
+|               900 | 60 |     READY |   RUNNING |
+|              1000 | 60 |   RUNNING |     READY |
+|              1000 | 50 |     READY |   RUNNING |
+|              1100 | 50 |   RUNNING |     READY |
+|              1100 | 40 |     READY |   RUNNING |
+|              1200 | 40 |   RUNNING |     READY |
+|              1200 | 60 |     READY |   RUNNING |
+|              1300 | 60 |   RUNNING |     READY |
+|              1300 | 50 |     READY |   RUNNING |
+|              1400 | 50 |   RUNNING |     READY |
+|              1400 | 40 |     READY |   RUNNING |
+|              1500 | 40 |   RUNNING |     READY |
+|              1500 | 60 |     READY |   RUNNING |
+|              1600 | 60 |   RUNNING |     READY |
+|              1600 | 50 |     READY |   RUNNING |
+|              1700 | 50 |   RUNNING |     READY |
+|              1700 | 40 |     READY |   RUNNING |
+|              1800 | 40 |   RUNNING |     READY |
+|              1800 | 60 |     READY |   RUNNING |
+|              1900 | 60 |   RUNNING |     READY |
+|              1900 | 50 |     READY |   RUNNING |
+|              2000 | 50 |   RUNNING |     READY |
+|              2000 | 40 |     READY |   RUNNING |
+|              2050 | 40 |   RUNNING |TERMINATED |
+|              2050 | 60 |     READY |   RUNNING |
+|              2100 | 60 |   RUNNING |TERMINATED |
+|              2100 | 50 |     READY |   RUNNING |
+|              2200 | 50 |   RUNNING |     READY |
+|              2200 | 50 |     READY |   RUNNING |
+|              2300 | 50 |   RUNNING |     READY |
+|              2300 | 50 |     READY |   RUNNING |
+|              2400 | 50 |   RUNNING |TERMINATED |
++------------------------------------------------+
++---------------------------------------------------------------------------------------------------+
+|        Throughput |  Average Turnaround Time |    Average Waiting Time |    Average Response Time |
++---------------------------------------------------------------------------------------------------+
+|           0.00125 |               1883.33337 |              1150.00000 |                  0.00000 |

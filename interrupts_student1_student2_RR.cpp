@@ -126,6 +126,8 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 execution_status += print_exec_status(current_time, running.PID, RUNNING, READY);
                 sync_queue(job_list, running);
 
+                FCFS(ready_queue); //update ready queue after RR timeout
+
                 //replace current running process with next process in ready queue
                 run_process(running, job_list, ready_queue, current_time);
                 execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);

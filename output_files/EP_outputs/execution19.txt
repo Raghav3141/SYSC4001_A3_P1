@@ -1,0 +1,38 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  3 |       NEW |     READY |
+|                 0 |  3 |     READY |   RUNNING |
+|                20 |  6 |       NEW |     READY |
+|                25 |  3 |   RUNNING |   WAITING |
+|                25 |  6 |     READY |   RUNNING |
+|                35 |  3 |   WAITING |     READY |
+|                40 |  9 |       NEW |     READY |
+|               105 |  6 |   RUNNING |TERMINATED |
+|               105 |  3 |     READY |   RUNNING |
+|               130 |  3 |   RUNNING |   WAITING |
+|               130 |  9 |     READY |   RUNNING |
+|               140 |  3 |   WAITING |     READY |
+|               148 |  9 |   RUNNING |   WAITING |
+|               148 |  3 |     READY |   RUNNING |
+|               156 |  9 |   WAITING |     READY |
+|               173 |  3 |   RUNNING |   WAITING |
+|               173 |  9 |     READY |   RUNNING |
+|               183 |  3 |   WAITING |     READY |
+|               191 |  9 |   RUNNING |   WAITING |
+|               191 |  3 |     READY |   RUNNING |
+|               199 |  9 |   WAITING |     READY |
+|               216 |  3 |   RUNNING |TERMINATED |
+|               216 |  9 |     READY |   RUNNING |
+|               234 |  9 |   RUNNING |   WAITING |
+|               242 |  9 |   WAITING |     READY |
+|               242 |  9 |     READY |   RUNNING |
+|               260 |  9 |   RUNNING |   WAITING |
+|               268 |  9 |   WAITING |     READY |
+|               268 |  9 |     READY |   RUNNING |
+|               286 |  9 |   RUNNING |TERMINATED |
++------------------------------------------------+
++---------------------------------------------------------------------------------------------------+
+|        Throughput |  Average Turnaround Time |    Average Waiting Time |    Average Response Time |
++---------------------------------------------------------------------------------------------------+
+|           0.01049 |                182.33333 |                71.66666 |                 14.33333 |

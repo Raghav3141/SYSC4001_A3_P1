@@ -1,0 +1,53 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  5 |       NEW |     READY |
+|                 0 | 10 |       NEW |     READY |
+|                 0 |  5 |     READY |   RUNNING |
+|                15 |  5 |   RUNNING |   WAITING |
+|                15 | 10 |     READY |   RUNNING |
+|                23 |  5 |   WAITING |     READY |
+|                25 | 15 |       NEW |     READY |
+|                33 | 10 |   RUNNING |   WAITING |
+|                33 |  5 |     READY |   RUNNING |
+|                40 | 20 |       NEW |     READY |
+|                43 | 10 |   WAITING |     READY |
+|                48 |  5 |   RUNNING |   WAITING |
+|                48 | 10 |     READY |   RUNNING |
+|                56 |  5 |   WAITING |     READY |
+|                66 | 10 |   RUNNING |   WAITING |
+|                66 |  5 |     READY |   RUNNING |
+|                76 | 10 |   WAITING |     READY |
+|                81 |  5 |   RUNNING |   WAITING |
+|                81 | 10 |     READY |   RUNNING |
+|                89 |  5 |   WAITING |     READY |
+|                99 | 10 |   RUNNING |   WAITING |
+|                99 |  5 |     READY |   RUNNING |
+|               109 | 10 |   WAITING |     READY |
+|               114 |  5 |   RUNNING |   WAITING |
+|               114 | 10 |     READY |   RUNNING |
+|               122 |  5 |   WAITING |     READY |
+|               132 | 10 |   RUNNING |   WAITING |
+|               132 |  5 |     READY |   RUNNING |
+|               142 | 10 |   WAITING |     READY |
+|               142 |  5 |   RUNNING |TERMINATED |
+|               142 | 10 |     READY |   RUNNING |
+|               160 | 10 |   RUNNING |TERMINATED |
+|               160 | 15 |     READY |   RUNNING |
+|               180 | 15 |   RUNNING |   WAITING |
+|               180 | 20 |     READY |   RUNNING |
+|               192 | 15 |   WAITING |     READY |
+|               230 | 20 |   RUNNING |TERMINATED |
+|               230 | 15 |     READY |   RUNNING |
+|               250 | 15 |   RUNNING |   WAITING |
+|               262 | 15 |   WAITING |     READY |
+|               262 | 15 |     READY |   RUNNING |
+|               282 | 15 |   RUNNING |   WAITING |
+|               294 | 15 |   WAITING |     READY |
+|               294 | 15 |     READY |   RUNNING |
+|               314 | 15 |   RUNNING |TERMINATED |
++------------------------------------------------+
++---------------------------------------------------------------------------------------------------+
+|        Throughput |  Average Turnaround Time |    Average Waiting Time |    Average Response Time |
++---------------------------------------------------------------------------------------------------+
+|           0.01274 |                195.25000 |                95.75000 |                 13.25000 |

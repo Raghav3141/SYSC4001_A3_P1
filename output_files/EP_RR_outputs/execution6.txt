@@ -1,0 +1,18 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  2 |       NEW |     READY |
+|                 0 |  2 |     READY |   RUNNING |
+|                 2 |  1 |       NEW |     READY |
+|                 2 |  2 |   RUNNING |     READY |
+|                 2 |  1 |     READY |   RUNNING |
+|               102 |  1 |   RUNNING |     READY |
+|               102 |  1 |     READY |   RUNNING |
+|               122 |  1 |   RUNNING |TERMINATED |
+|               122 |  2 |     READY |   RUNNING |
+|               220 |  2 |   RUNNING |TERMINATED |
++------------------------------------------------+
++---------------------------------------------------------------------------------------------------+
+|        Throughput |  Average Turnaround Time |    Average Waiting Time |    Average Response Time |
++---------------------------------------------------------------------------------------------------+
+|           0.00909 |                170.00000 |                60.00000 |                  0.00000 |

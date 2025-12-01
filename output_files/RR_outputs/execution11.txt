@@ -1,0 +1,38 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 5 | 10 |       NEW |     READY |
+|                 5 | 10 |     READY |   RUNNING |
+|                 6 | 10 |   RUNNING |   WAITING |
+|                 7 | 10 |   WAITING |     READY |
+|                 7 | 10 |     READY |   RUNNING |
+|                 8 | 10 |   RUNNING |   WAITING |
+|                 9 | 10 |   WAITING |     READY |
+|                 9 | 10 |     READY |   RUNNING |
+|                10 | 20 |       NEW |     READY |
+|                10 | 10 |   RUNNING |   WAITING |
+|                10 | 20 |     READY |   RUNNING |
+|                11 | 10 |   WAITING |     READY |
+|                12 | 20 |   RUNNING |   WAITING |
+|                12 | 10 |     READY |   RUNNING |
+|                13 | 10 |   RUNNING |   WAITING |
+|                14 | 10 |   WAITING |     READY |
+|                14 | 10 |   WAITING |     READY |
+|                14 | 10 |     READY |   RUNNING |
+|                15 | 10 |   RUNNING |TERMINATED |
+|                15 | 20 |     READY |   RUNNING |
+|                17 | 20 |   RUNNING |   WAITING |
+|                19 | 20 |   WAITING |     READY |
+|                19 | 20 |     READY |   RUNNING |
+|                21 | 20 |   RUNNING |   WAITING |
+|                23 | 20 |   WAITING |     READY |
+|                23 | 20 |     READY |   RUNNING |
+|                25 | 20 |   RUNNING |   WAITING |
+|                27 | 20 |   WAITING |     READY |
+|                27 | 20 |     READY |   RUNNING |
+|                29 | 20 |   RUNNING |TERMINATED |
++------------------------------------------------+
++---------------------------------------------------------------------------------------------------+
+|        Throughput |  Average Turnaround Time |    Average Waiting Time |    Average Response Time |
++---------------------------------------------------------------------------------------------------+
+|           0.06897 |                 14.50000 |                 1.00000 |                  1.50000 |
