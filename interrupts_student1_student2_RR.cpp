@@ -143,6 +143,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     //Close the output table
     execution_status += print_exec_footer();
 
+    //output the calculated averages
     execution_status += output_averages(job_list, current_time);
 
     return std::make_tuple(execution_status);

@@ -345,19 +345,21 @@ std::string output_averages(std::vector<PCB> &job_queue, unsigned int current_ti
     float avg_waiting;
     float avg_response;
     for (auto &process : job_queue){
+        //calculates the data for each process and adds it to the respective vector
         unsigned int turnaround_time = process.end_time - process.first_arrival_time;
         unsigned int waiting_time = turnaround_time - process.processing_time;
         turnaround_times.push_back(turnaround_time);
         waiting_times.push_back(waiting_time - process.total_io_time);
-        response_times.push_back(process.io_freq);
+        response_times.push_back(process.io_freq); // assumed that if there is no i/o from the process the process will not have a response time
     }
 
+    //takes the average data from each vector and stores it into a variable
     avg_turnaround = (std::accumulate(turnaround_times.begin(), turnaround_times.end(), 0.0))/turnaround_times.size();
     avg_waiting = (std::accumulate(waiting_times.begin(), waiting_times.end(), 0.0))/waiting_times.size();
     avg_response = (std::accumulate(response_times.begin(), response_times.end(), 0.0))/response_times.size();
     throughput = (job_queue.size()/static_cast<float>(current_time - 1));
 
-    const int tableWidth = 75;
+    const int tableWidth = 100;
 
     std::stringstream buffer;
     
@@ -368,24 +370,25 @@ std::string output_averages(std::vector<PCB> &job_queue, unsigned int current_ti
     buffer  << "|"
             << std::setfill(' ') << std::fixed << std::setprecision(5) << std::setw(18) << "Throughput"
             << std::setw(2) << "|"
-            << std::setfill(' ') << std::setw(16) << "Average Turnaround Time"
+            << std::setfill(' ') << std::setw(25) << "Average Turnaround Time"
             << std::setw(2) << "|"
-            << std::setfill(' ') << std::setw(15) << "Average Waiting Time"
+            << std::setfill(' ') << std::setw(24) << "Average Waiting Time"
             << std::setw(2) << "|"
-            << std::setfill(' ') << std::setw(16) << "Average Response Time"
+            << std::setfill(' ') << std::setw(25) << "Average Response Time"
             << std::setw(2) << "|" << std::endl;
     
     // Print separator
     buffer << "+" << std::setfill('-') << std::setw(tableWidth) << "+" << std::endl;
 
+    //print data
     buffer  << "|"
             << std::setfill(' ') << std::setw(18) << throughput
             << std::setw(2) << "|"
-            << std::setw(16) << avg_turnaround
+            << std::setw(25) << avg_turnaround
             << std::setw(2) << "|"
-            << std::setw(15) << avg_waiting
+            << std::setw(24) << avg_waiting
             << std::setw(2) << "|"
-            << std::setw(16) << avg_response
+            << std::setw(25) << avg_response
             << std::setw(2) << "|" << std::endl;
 
     return buffer.str();

@@ -12,7 +12,7 @@ void EP(std::vector<PCB> &ready_queue) {
                 ready_queue.begin(),
                 ready_queue.end(),
                 []( const PCB &first, const PCB &second ){
-                    return (first.PID < second.PID); 
+                    return (first.PID > second.PID); 
                 } 
             );
 }
@@ -105,7 +105,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 running.io_counter = 0;
                 execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
                 wait_queue.push_back(running);
-                if (!ready_queue.empty()){
+                if (!ready_queue.empty()){ //if there's an element in the ready queue then that gets run next
                     run_process(running, job_list, ready_queue, current_time);
                     execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
                 }
@@ -122,6 +122,9 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     
     //Close the output table
     execution_status += print_exec_footer();
+
+    //output the calculated averages
+    execution_status += output_averages(job_list, current_time);
 
     return std::make_tuple(execution_status);
 }

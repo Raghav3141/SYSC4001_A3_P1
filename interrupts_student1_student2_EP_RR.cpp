@@ -6,13 +6,13 @@
  */
 
 #include<interrupts_student1_student2.hpp>
-
-void FCFS(std::vector<PCB> &ready_queue) {
+#define TIMER 100
+void EP(std::vector<PCB> &ready_queue) {
     std::sort( 
                 ready_queue.begin(),
                 ready_queue.end(),
                 []( const PCB &first, const PCB &second ){
-                    return (first.arrival_time > second.arrival_time); 
+                    return (first.PID > second.PID); 
                 } 
             );
 }
@@ -27,6 +27,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                                     //to make the code easier :).
 
     unsigned int current_time = 0;
+    unsigned int timer_counter = 0;
     PCB running;
 
     //Initialize an empty running process
@@ -81,13 +82,84 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
-        FCFS(ready_queue); //example of FCFS is shown here
+        EP(ready_queue); //EP needed for reorganizing ready queue
+        if ((running.PID == -1) && !ready_queue.empty()){ //No process running
+            run_process(running, job_list, ready_queue, current_time); //run next process in ready queue
+            execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+            timer_counter = 0;
+        }
+        if(running.PID >= 0){ //condition if there is a current running process
+            if(running.remaining_time == 0){ //process terminates
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED);
+                running.end_time = current_time;
+                terminate_process(running, job_list);
+                if (!ready_queue.empty()){ //check if ready queue still has elements before choosing what's next to run
+                    run_process(running, job_list, ready_queue, current_time); //run next process in ready queue
+                    execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+                    timer_counter = 0;
+                }
+                else{
+                    idle_CPU(running);
+                }
+            }
+            else if((running.PID > ready_queue.back().PID) && !ready_queue.empty()){ //use EP preemption to kick out current running process and replace with next process
+                running.state = READY;
+                ready_queue.push_back(running);
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, READY);
+                sync_queue(job_list, running);
+                EP(ready_queue);
+                run_process(running, job_list, ready_queue, current_time);
+                execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+                timer_counter = 0;
+            }
+            else if((running.io_counter == running.io_freq) && (running.io_freq > 0)){ //I/O interrupt sends process to wait queue
+                running.state = WAITING;
+                running.io_counter = 0;
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
+                wait_queue.push_back(running);
+                sync_queue(job_list, running);
+                if (!ready_queue.empty()){ //checks if ready queue has stuff before running next process
+                    run_process(running, job_list, ready_queue, current_time);
+                    execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+                    timer_counter = 0;
+                }
+                else{
+                    idle_CPU(running);
+                }
+            }
+            else if(timer_counter == TIMER){ //Timer interrupt from RR
+                //first add running process back to ready queue
+                running.state = READY;
+                running.arrival_time = current_time;
+                ready_queue.push_back(running);
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, READY);
+                sync_queue(job_list, running);
+
+                EP(ready_queue); //reorganize ready queue using EP organization
+
+                //replace current running process with next process in ready queue
+                run_process(running, job_list, ready_queue, current_time);
+                execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+                timer_counter = 0;
+            }
+            else {
+                sync_queue(job_list, running);
+            }
+            running.remaining_time--;
+            running.io_counter++;
+            timer_counter++;
+        }
+        /////////////////////////////////////////////////////////////////
+        current_time++;
         /////////////////////////////////////////////////////////////////
 
     }
     
     //Close the output table
     execution_status += print_exec_footer();
+
+    //output the calculated averages
+    execution_status += output_averages(job_list, current_time);
 
     return std::make_tuple(execution_status);
 }
